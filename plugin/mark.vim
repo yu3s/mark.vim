@@ -75,6 +75,7 @@ def g:ClearAll()
 			matchdelete(id)
 		endfor
 		index = 0
+		over = 0
 	endif
 enddef
 
