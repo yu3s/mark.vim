@@ -3,6 +3,7 @@ vim9script
 var loaded_mark: number = 0
 var index: number = 0
 var matchid: list<number> = []
+var matchstr: list<string> = []
 
 if loaded_mark == 1
 	finish
@@ -31,6 +32,13 @@ def Process(expr: string)
 		return
 	endif
 
+	for str in matchstr
+		if str == expr
+			return
+		endif
+	endfor
+
+	matchstr[index] = expr
 	matchid[index] = matchadd('MarkWord' .. index, expr)
 	index += 1
 enddef
@@ -69,6 +77,7 @@ def g:ClearAll()
 
 	index = 0
 	matchid = []
+	matchstr = []
 enddef
 
 def DefaultHighlighting()
