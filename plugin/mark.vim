@@ -1,9 +1,8 @@
 vim9script
 
-var loaded_mark = 0
-var matchid = []
-var index = 0
-var over = 0
+var loaded_mark: number = 0
+var index: number = 0
+var matchid: list<number> = []
 
 if loaded_mark == 1
 	finish
@@ -23,19 +22,13 @@ def GetVisualSelection(): string
 	return res
 enddef
 
-
 def EscapeText(text: string): string
 	return substitute( escape(text, '\' .. '^$.*[~'), "\n", '\\n', 'ge' )
 enddef
 
 def Process(expr: string)
 	if index > 5
-		over = 1
-		index = 0
-	endif
-
-	if over == 1
-		matchdelete(matchid[index])
+		return
 	endif
 
 	matchid[index] = matchadd('MarkWord' .. index, expr)
@@ -70,13 +63,12 @@ def g:MarkVisualWord()
 enddef
 
 def g:ClearAll()
-	if index > 0
-		for id in matchid
-			matchdelete(id)
-		endfor
-		index = 0
-		over = 0
-	endif
+	for id in matchid
+		matchdelete(id)
+	endfor
+
+	index = 0
+	matchid = []
 enddef
 
 def DefaultHighlighting()
